@@ -1,0 +1,25 @@
+- hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: k8s-helm-repository 
+      vars:
+        master_group: local
+        RepoName: stable
+        RepoURL: https://artifact.onwalk.net/chartrepo/k8s 
+    - include_role:
+        name: k8s-chart
+      vars:
+        ClusterContext: "{{ vars.eks.name }}" 
+        ClusterDomain: "cluster.local"
+        Name: gitlab
+        Namespace: gitlab
+        Chart: "stable/gitlab"
+        Version: 5.8.2
+        TemplateFile: chart-template/gitlab.temp
+        ExtraVars:
+          storageclass: 'gp2'
+          ingressclass: nginx
+          domain: {{ vars.gitlab.domain }} 
+          password: "{{ vars.gitlab.pw }}" 

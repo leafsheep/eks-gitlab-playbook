@@ -1,7 +1,6 @@
 controller:
   name: controller
-  image:
-    registry: "{{ IngressNginxRepository | default("k8s.gcr.io", true) }}"
+    registry: "{{ ExtraVars.repository | default("k8s.gcr.io", true) }}"
     image: ingress/nginx-controller
     tag: "v1.1.1"
     digest: "sha256:402333bae4fa45ff918939e77e6c836e0c39f53cafba734a91503fd38190c032" 
@@ -15,7 +14,7 @@ controller:
     patch:
       enabled: true
       image:
-        registry: "{{ IngressNginxRepository | default("k8s.gcr.io", true) }}"
+        registry: "{{ ExtraVars.epository | default("k8s.gcr.io", true) }}"
         image: ingress/nginx-kube-webhook-certgen
         tag: v1.1.1
         digest: sha256:78351fc9d9b5f835e0809921c029208faeb7fbb6dc2d3b0d1db0a6584195cfed 
@@ -28,7 +27,7 @@ controller:
 defaultBackend:
   enabled: true
   image:
-    registry: "{{ IngressNginxRepository | default("k8s.gcr.io", true) }}"
+    registry: "{{ ExtraVars.repository | default("k8s.gcr.io", true) }}"
     image: ingress/defaultbackend-amd64
     tag: "1.5"
 tcp:

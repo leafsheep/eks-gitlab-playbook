@@ -1,0 +1,15 @@
+clusterDomain: "{{ ClusterDomain }}"
+global:
+  imageRegistry: artifact.onwalk.net/knative
+sources:
+  - service
+  - ingress
+domainFilters:
+  - {{ ExtraVars.domain }}
+policy: upsert-only
+provider: {{ ExtraVars.provider }}
+alibabacloud:
+  accessKeyId: "{{ ExtraVars.accesskey }}"
+  accessKeySecret: "{{ ExtraVars.secretkey }}"
+  regionId: "{{ ExtraVars.region }}"
+  zoneType: public

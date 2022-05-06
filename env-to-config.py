@@ -52,6 +52,6 @@ if __name__ == '__main__':
         }
     } )
 
-    ci.render_template('template/eks-addon', 'eks-addon', temp_vars)
-    ci.render_template('template/deploy-gitlab', 'deploy-gitlab', temp_vars)
-    ci.render_template('template/deploy-gitlab-runner', 'deploy-gitlab-runner', temp_vars)
+    ci.render_template('ci-template/eks-addon', 'deploy-eks-addon', temp_vars)
+    ci.render_template('ci-template/gitlab', 'deploy-gitlab', temp_vars)
+    ci.render_template('ci-template/gitlab-runner', 'deploy-gitlab-runner', temp_vars)

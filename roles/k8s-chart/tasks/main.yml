@@ -1,0 +1,28 @@
+- name: "cluster {{ ClusterContext }} : Create {{ Namespace }}"
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    context: "{{ ClusterContext }}"
+    name: "{{ Namespace }}"
+    state: present
+
+- name: "cluster {{ ClusterContext }} :Deploy {{ Name }}"
+  kubernetes.core.helm:
+    name: "{{ Name }}"
+    chart_ref: "{{ Chart }}"
+    chart_version: "{{ Version }}"
+    context: "{{ ClusterContext }}"
+    release_namespace: "{{ Namespace }}"
+    values: "{{ lookup('template', TemplateFile) | from_yaml }}"
+
+- name: Waiting for Gitlab RES Ready
+  shell: "kubectl get pods -n {{ Namespace }} | grep -v Running | awk 'NR>1'"
+  register: cluster_stats
+  until:
+    - 'cluster_stats.stdout == ""'
+  retries: 40
+  delay: 10
+ 
+- name: Show Debug Info
+  debug: var=cluster_stats verbosity=0
+

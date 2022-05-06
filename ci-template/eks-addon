@@ -9,39 +9,45 @@
         RepoName: stable
         RepoURL: https://artifact.onwalk.net/chartrepo/k8s 
     - include_role:
-        name: k8s-external-dns 
+        name: k8s-chart 
       vars:
-        master_group: local
-        EdnsChartName: stable/external-dns
-        EdnsChartVersion: 6.1.5
         ClusterContext: "{{ vars.eks.name }}"
         ClusterDomain: "cluster.local"
-        DnsDomain: "{{ vars.gitlab.domain }}"
-        provider: aws
-        regionId: {{ vars.region }}
-        accessKeyId: "{{ vars.count.sk }}"
-        accessKeySecret: {{ vars.count.sk }}
+        Namespace: external-dns
+        Name: external-dns
+        Chart: stable/external-dns
+        Version: 6.1.5
+        TemplateFile: chart-template/external-dns.temp
+        ExtraVars:
+          domain: "{{ vars.gitlab.domain }}"
+          provider: aws
+          region: {{ vars.region }}
+          accesskey: "{{ vars.count.sk }}"
+          secretkey: "{{ vars.count.sk }}"
     - include_role:
-        name: eks-ingress-nginx
+        name: k8s-chart 
       vars:
-        master_group: local
-        ClusterContext: "{{ eks.name }}"
+        ClusterContext: "{{ vars.eks.name }}"
         ClusterDomain: "cluster.local"
         Namespace: ingress
         Name: nginx
         Chart: "stable/ingress-nginx"
         Version: 4.0.17
+        TemplateFile: chart-template/ingress-nginx.temp
+        ExtraVars:
+          repository: artifact.onwalk.net
     - include_role:
-        name: k8s-velero
+        name: k8s-chart 
       vars:
-        master_group: local
         ClusterContext: "{{ vars.eks.name }}"
         ClusterDomain: "cluster.local"
         Namespace: velero
         Name: velero
         Chart: "stable/velero"
         Version: 2.29.4
-        s3:
+        TemplateFile: chart-template/velero.temp
+        ExtraVars:
+          provider: aws
           bucket: "{{ vars.bucket }}"
           region: "{{ vars.region }}" 
           ak: "{{ vars.count.ak }}" 

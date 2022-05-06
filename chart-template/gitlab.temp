@@ -1,0 +1,33 @@
+global:
+  edition: ce
+  hosts:
+    https: true
+    domain: "{{ ExtraVars.domain }}"
+  ingress:
+    enabled: true
+    configureCertmanager: false
+    class: "{{ ExtraVars.ingressclass }}"
+    tls:
+      enabled: true
+      secretName: gitlab-tls
+  initialRootPassword:
+    secret: gitlab-components-secret 
+    key: gitlab
+gitlab:
+  gitaly:
+    persistence:
+      size: 10Gi
+      storageClass: "{{ ExtraVars.storageclass }}"
+registry:
+  enabled: true
+certmanager:
+  install: false
+  installCRDs: false
+  startupapicheck:
+    enabled: false
+nginx-ingress:
+  enabled: false
+prometheus:
+  install: false
+gitlab-runner:
+  install: false
