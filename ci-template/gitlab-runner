@@ -1,15 +1,23 @@
-enabled: true
-rbac:
-  create: true
-  clusterWideAccess: true
-gitlabUrl: "{{ url }}" 
-runnerRegistrationToken: "{{ token }}" 
-runners:
-  executor: "kubernetes"
-service:
-  enabled: true
-metrics:
-  serviceMonitor:
-    enabled: true
-    labels:
-      release: prometheus
+- name: local-desktop
+  hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: k8s-helm-repository
+      vars:
+        master_group: master
+        RepoName: stable
+        RepoURL: https://artifact.onwalk.net/chartrepo/k8s
+    - include_role:
+        name: k8s-chart
+      vars:
+        ClusterContext: "{{ vars.eks.name }}" 
+        Name: iac-runner-1
+        Namespace: gitlab-runner
+        Chart: "stable/gitlab-runner"
+        Version: 0.38.0
+        TemplateFile: chart-template/gitlab-runner.temp
+        ExtraVars:
+          url: "https://{{ vars.gitlab.url }}" 
+          token: "{{ vars.gitlab.token }}"
