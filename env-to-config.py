@@ -1,0 +1,57 @@
+import os
+import hvac
+from jinja2 import Environment, FileSystemLoader
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def read_vault_vars(vault_url, vault_token, vault_path, vault_secret):
+    client = hvac.Client(url=vault_url,token=vault_token)
+    client.is_authenticated()
+
+    client.secrets.kv.v2.configure(
+      max_versions=20,
+      mount_point=vault_path,
+    )
+
+    request = client.secrets.kv.v2.read_secret_version(mount_point=vault_path, path=vault_secret)
+    return request
+
+def render_template( template_source, template_result, template_vars ):
+    inventory_env      = Environment(loader=FileSystemLoader(THIS_DIR),
+                         trim_blocks=True)
+    inventory_template = inventory_env.get_template(template_source)
+    inventory_output   = inventory_template.render(vars=template_vars)
+    with open(template_result, "w+") as f:
+        f.write(inventory_output)
+
+if __name__ == '__main__':
+
+    aws_region           = os.environ['region']
+    aws_count_ak         = os.environ['ak']
+    aws_count_sk         = os.environ['sk']
+    eks_name             = os.environ['eks_name'] 
+    s3_bucket            = os.environ['s3_name']
+    gitlab_pw            = os.environ['gitlab_pw']
+    gitlab_domain        = os.environ['gitlab_domain']
+
+    temp_vars = {}
+
+    temp_vars.update( { 
+    'region': aws_region,
+    'bucket': s3_bucket,
+    'count': { 
+         'ak': aws_count_ak ,
+         'sk': aws_count_sk 
+         },
+    'eks': { 
+         'name': eks_name
+        },
+    'gitlab': { 
+         'pw': gitlab_pw,
+         'domain' gitlab_domain
+        }
+    } )
+
+    ci.render_template('template/eks-addon', 'eks-addon', temp_vars)
+    ci.render_template('template/deploy-gitlab', 'deploy-gitlab', temp_vars)
+    ci.render_template('template/deploy-gitlab-runner', 'deploy-gitlab-runner', temp_vars)

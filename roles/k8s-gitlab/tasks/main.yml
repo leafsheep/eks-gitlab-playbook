@@ -1,0 +1,50 @@
+- name: "cluster {{ ClusterContext }} : Create NameSpace"
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    context: "{{ ClusterContext }}"
+    name: "{{ Namespace }}"
+    state: present
+
+- name: Sync Certs
+  template: src=roles/common/files/{{ item }} dest=/tmp/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - onwalk.net.pem
+    - onwalk.net.key
+  ignore_errors: yes
+
+- name: "cluster {{ ClusterContext }} : Clean OLD Secret"
+  shell: "kubectl delete secret --all -n  {{ Namespace }}"
+  ignore_errors: yes
+
+- name: "cluster {{ ClusterContext }} : Create New Gitlab-tls secret"
+  shell: "kubectl create secret tls gitlab-tls             \
+          --cert=/tmp/onwalk.net.pem                       \
+          --key=/tmp/onwalk.net.key                        \
+          -n {{ Namespace }}"
+
+- name: "cluster {{ ClusterContext }} : Create New Gitlab-Components secret"
+  shell: ' kubectl create secret generic gitlab-components-secret \
+           --from-literal=gitlab="{{ GitlabPassword }}"           \
+           -n {{ Namespace }} '
+
+- name: "cluster {{ ClusterContext }} : Gitlab"
+  kubernetes.core.helm:
+    name: "{{ Name }}"
+    chart_ref: "{{ Chart }}"
+    chart_version: "{{ Version }}"
+    context: "{{ ClusterContext }}"
+    release_namespace: "{{ Namespace }}"
+    values: "{{ lookup('template', 'roles/k8s-gitlab/template/values.temp') | from_yaml }}"
+
+- name: Waiting for Gitlab RES Ready
+  shell: "kubectl get pods -n {{ Namespace }} | grep -v Running | awk 'NR>1'"
+  register: cluster_stats
+  until:
+    - 'cluster_stats.stdout == ""'
+  retries: 40
+  delay: 10
+ 
+- name: Show Debug Info
+  debug: var=cluster_stats verbosity=0
+

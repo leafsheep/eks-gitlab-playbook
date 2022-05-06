@@ -1,0 +1,31 @@
+- name: "cluster {{ ClusterContext }} : Create NameSpace"
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    context: "{{ ClusterContext }}"
+    name: external-dns
+    state: present
+
+- name: "cluster {{ ClusterContext }} : Deploy External Dns"
+  kubernetes.core.helm:
+    name: external-dns
+    chart_ref: "{{ EdnsChartName }}"
+    chart_version: "{{ EdnsChartVersion }}"
+    context: "{{ ClusterContext }}"
+    release_namespace: external-dns
+    values:
+      clusterDomain: "{{ ClusterDomain }}"
+      global:
+        imageRegistry: artifact.onwalk.net/knative
+      sources:
+        - service
+        - ingress
+      domainFilters:
+        - onwalk.net
+      policy: upsert-only
+      provider: alibabacloud
+      alibabacloud:
+        accessKeyId: "{{ accessKeyId }}"
+        accessKeySecret: "{{ accessKeySecret }}"
+        regionId: "{{ regionId }}"
+        zoneType: public

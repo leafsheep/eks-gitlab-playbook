@@ -1,0 +1,46 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - include_role:
+        name: k8s-helm-repository 
+      vars:
+        master_group: local
+        RepoName: stable
+        RepoURL: https://artifact.onwalk.net/chartrepo/k8s 
+    - include_role:
+        name: k8s-external-dns 
+      vars:
+        master_group: local
+        EdnsChartName: stable/external-dns
+        EdnsChartVersion: 6.1.5
+        ClusterContext: "{{ vars.eks.name }}"
+        ClusterDomain: "cluster.local"
+        regionId: {{ vars.count.ak }}
+        accessKeyId: "{{ vars.count.sk }}"
+        accessKeySecret: {{ vars.count.sk }}
+    - include_role:
+        name: eks-ingress-nginx
+      vars:
+        master_group: local
+        ClusterContext: "{{ eks.name }}"
+        ClusterDomain: "cluster.local"
+        Namespace: ingress
+        Name: nginx
+        Chart: "stable/ingress-nginx"
+        Version: 4.0.17
+    - include_role:
+        name: k8s-velero
+      vars:
+        master_group: local
+        ClusterContext: "{{ vars.eks.name }}"
+        ClusterDomain: "cluster.local"
+        Namespace: velero
+        Name: velero
+        Chart: "stable/velero"
+        Version: 2.29.4
+        s3:
+          bucket: "{{ vars.bucket }}"
+          region: "{{ vars.region }}" 
+          ak: "{{ vars.count.ak }}" 
+          sk: "{{ vars.count.sk }}" 

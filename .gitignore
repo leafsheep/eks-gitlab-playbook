@@ -1,0 +1,4 @@
+.test_devploy.sh
+deploy-gitlab
+deploy-gitlab-runner
+eks-addo
