@@ -23,7 +23,7 @@
       domainFilters:
         - onwalk.net
       policy: upsert-only
-      provider: alibabacloud
+      provider: {{ provider }}
       alibabacloud:
         accessKeyId: "{{ accessKeyId }}"
         accessKeySecret: "{{ accessKeySecret }}"

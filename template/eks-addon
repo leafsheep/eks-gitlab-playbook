@@ -16,7 +16,9 @@
         EdnsChartVersion: 6.1.5
         ClusterContext: "{{ vars.eks.name }}"
         ClusterDomain: "cluster.local"
-        regionId: {{ vars.count.ak }}
+        DnsDomain: "{{ vars.gitlab.domain }}"
+        provider: aws
+        regionId: {{ vars.region }}
         accessKeyId: "{{ vars.count.sk }}"
         accessKeySecret: {{ vars.count.sk }}
     - include_role:
