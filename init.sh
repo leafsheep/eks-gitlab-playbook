@@ -22,7 +22,7 @@ function init_linux()
     sudo yum makecache
     sudo yum install python3-pip git tmux -y
     sudo pip3 install ansible jinja2 hvac kubernetes -i https://pypi.mirrors.ustc.edu.cn/simple
-    sudo ansible-galaxy collection install kubernetes.core 
+    sudo /usr/local/bin/ansible-galaxy collection install kubernetes.core 
     sudo curl -o /usr/bin/kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl 
     sudo curl -o /tmp/helm.tar.gz https://mirrors.huaweicloud.com/helm/v3.5.2/helm-v3.5.2-linux-amd64.tar.gz
     sudo tar -xpvf /tmp/helm.tar.gz -C /tmp/ && sudo cp /tmp/linux-amd64/helm /usr/bin/ -f
