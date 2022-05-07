@@ -18,14 +18,10 @@ EOF
 
 function init_linux()
 {
-    apt-get install software-properties-common -y
-    apt-add-repository ppa:ansible/ansible -y
-    apt-get update 
-    apt-get install ansible python3-pip -y
-    pip3 install jinja2 json kubernetes
-    ansible-galaxy collection install kubernetes.core 
-    init_tmux_conf
-    init_terraform
+    sudo amazon-linux-extras enable ansible2
+    sudo yum  install ansible python3-pip git tmux -y
+    sudo pip3 install jinja2 hvac kubernetes
+    sudo ansible-galaxy collection install kubernetes.core 
 }
 
 case `uname` in
@@ -33,6 +29,4 @@ case `uname` in
          * )  echo "Unkown OS" ;; 
 esac
 
-#wget https://releases.hashicorp.com/terraform/1.1.7/terraform_1.1.7_darwin_arm64.zip
-#unzip terraform_1.1.7_darwin_arm64.zip
-#aws configure
+aws configure
