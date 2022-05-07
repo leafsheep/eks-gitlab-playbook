@@ -32,11 +32,11 @@
         name: k8s-chart
       vars:
         ClusterContext: "{{ vars.eks.name }}" 
-        Name: iac-runner-1
+        Name: iac-runner
         Namespace: gitlab-runner
         Chart: "stable/gitlab-runner"
         Version: 0.38.0
         TemplateFile: chart-template/gitlab-runner.temp
         ExtraVars:
-          url: "https://{{ vars.gitlab.url }}" 
+          url: "http://{{ vars.gitlab.domain }}" 
           token: "{{ vars.gitlab.token }}"
