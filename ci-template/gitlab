@@ -8,7 +8,7 @@
         RepoName: stable
         RepoURL: https://artifact.onwalk.net/chartrepo/k8s 
     - include_role:
-        name: k8s-chart
+        name: k8s-chart-with-secret
       vars:
         ClusterContext: "{{ vars.eks.name }}" 
         ClusterDomain: "cluster.local"
@@ -28,3 +28,15 @@
             - name: gitlab-registration-secret
               key: 'runner-registration-token'
               vaule: "{{ vars.gitlab.token }}"
+    - include_role:
+        name: k8s-chart
+      vars:
+        ClusterContext: "{{ vars.eks.name }}" 
+        Name: iac-runner-1
+        Namespace: gitlab-runner
+        Chart: "stable/gitlab-runner"
+        Version: 0.38.0
+        TemplateFile: chart-template/gitlab-runner.temp
+        ExtraVars:
+          url: "https://{{ vars.gitlab.url }}" 
+          token: "{{ vars.gitlab.token }}"

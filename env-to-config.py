@@ -56,4 +56,3 @@ if __name__ == '__main__':
 
     render_template('ci-template/eks-addon', 'deploy-eks-addon', temp_vars)
     render_template('ci-template/gitlab', 'deploy-gitlab', temp_vars)
-    render_template('ci-template/gitlab-runner', 'deploy-gitlab-runner', temp_vars)

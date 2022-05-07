@@ -18,7 +18,7 @@ EOF
 
 function init_linux()
 {
-    sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    sudo amazon-linux-extras enable ansible2
     sudo yum makecache
     sudo yum install ansible python3-pip git tmux -y
     sudo pip3 install jinja2 hvac kubernetes
