@@ -32,3 +32,4 @@ esac
 
 aws configure set aws_access_key_id $ak
 aws configure set aws_secret_access_key $sk
+aws eks --region $region update-kubeconfig --name $eks_name --alias $eks_name
