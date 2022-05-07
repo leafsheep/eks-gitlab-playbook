@@ -23,8 +23,9 @@ function init_linux()
     sudo pip3 install jinja2 hvac kubernetes
     sudo ansible-galaxy collection install kubernetes.core 
     sudo curl -o /usr/bin/kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl 
-    sudo curl -o /tmp/helm.tar.gz https://get.helm.sh/helm-canary-linux-amd64.tar.gz
-    sudo tar -xvpf /tmp/helm.tar.gz -C /tmp/ 
+    sudo curl -o /tmp/helm.tar.gz https://mirrors.huaweicloud.com/helm/v3.5.2/helm-v3.5.2-linux-amd64.tar.gz
+    sudo tar -xpvf /tmp/helm.tar.gz -C /tmp/ && sudo cp /tmp/linux-amd64/helm /usr/bin/ -f
+    sudo chmd 755 /usr/bin/kubectl /usr/bin/helm
     init_tmux_conf
 }
 
