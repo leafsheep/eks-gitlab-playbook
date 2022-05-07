@@ -1,3 +1,4 @@
+```
 export region=<aws-region-name>
 export ak=<aws-access-key>
 export sk=<aws-secret-key>
@@ -11,4 +12,4 @@ sh init.sh
 python3 env-to-config.py
 ~/.local/bin/ansible-playbook deploy-eks-addon -D
 ~/.local/bin/ansible-playbook deploy-gitlab -D
-
+```
