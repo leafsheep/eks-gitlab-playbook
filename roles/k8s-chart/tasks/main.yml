@@ -1,4 +1,4 @@
-- name: "cluster {{ ClusterContext }} : Create {{ Namespace }}"
+- name: "cluster {{ ClusterContext }} Create {{ Namespace }}"
   kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
@@ -6,7 +6,7 @@
     name: "{{ Namespace }}"
     state: present
 
-- name: "cluster {{ ClusterContext }} :Deploy {{ Name }}"
+- name: "cluster {{ ClusterContext }} Deploy {{ Name }}"
   kubernetes.core.helm:
     name: "{{ Name }}"
     chart_ref: "{{ Chart }}"
