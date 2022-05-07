@@ -11,7 +11,7 @@
   ignore_errors: yes
   when: ExtraVars.secrets is defined
 
-- name: "cluster {{ ClusterContext }} Create {{ item.secret }} Generic Secret"
+- name: "cluster {{ ClusterContext }} Create Generic Secret/{{ item.name }}"
   shell: ' kubectl create secret generic {{ item.name }}              \
            --from-literal={{ item.key }}="{{ item.vaule }}"           \
            -n {{ Namespace }} '
