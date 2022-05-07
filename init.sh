@@ -30,4 +30,5 @@ case `uname` in
          * )  echo "Unkown OS" ;; 
 esac
 
-aws configure
+aws configure aws_access_key_id = $ak
+aws configure aws_secret_access_key = $sk

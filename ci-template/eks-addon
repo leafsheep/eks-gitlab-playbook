@@ -22,7 +22,7 @@
           domain: "{{ vars.gitlab.domain }}"
           provider: aws
           region: {{ vars.region }}
-          accesskey: "{{ vars.count.sk }}"
+          accesskey: "{{ vars.count.ak }}"
           secretkey: "{{ vars.count.sk }}"
     - include_role:
         name: k8s-chart 
