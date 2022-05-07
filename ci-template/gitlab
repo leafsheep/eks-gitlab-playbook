@@ -8,7 +8,7 @@
         RepoName: stable
         RepoURL: https://artifact.onwalk.net/chartrepo/k8s 
     - include_role:
-        name: k8s-chart-with-secret
+        name: k8s-chart
       vars:
         ClusterContext: "{{ vars.eks.name }}" 
         ClusterDomain: "cluster.local"
@@ -26,7 +26,7 @@
               key: 'gitlab'
               vaule: "{{ vars.gitlab.pw }}"
             - name: gitlab-registration-secret
-              key: 'runner-registration-token'
+              key: runner-registration-token
               vaule: "{{ vars.gitlab.token }}"
     - include_role:
         name: k8s-chart

@@ -6,6 +6,18 @@
     name: "{{ Namespace }}"
     state: present
 
+- name: "cluster {{ ClusterContext }} Clean OLD Secret"
+  shell: "kubectl delete secret --all -n  {{ Namespace }}"
+  ignore_errors: yes
+  when: ExtraVars.secrets is defined
+
+- name: "cluster {{ ClusterContext }} Create {{ item.secret }} Generic Secret"
+  shell: ' kubectl create secret generic {{ item.name }}              \
+           --from-literal={{ item.key }}="{{ item.vaule }}"           \
+           -n {{ Namespace }} '
+  loop: "{{ ExtraVars.secrets }}"
+  when: ExtraVars.secrets is defined
+
 - name: "cluster {{ ClusterContext }} Deploy {{ Name }}"
   kubernetes.core.helm:
     name: "{{ Name }}"
