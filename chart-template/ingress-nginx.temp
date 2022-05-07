@@ -1,5 +1,6 @@
 controller:
   name: controller
+  image:
     registry: "{{ ExtraVars.repository }}"
     image: ingress/nginx-controller
     tag: "v1.1.1"
