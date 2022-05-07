@@ -9,6 +9,6 @@ export gitlab_token=`head -c 512 /dev/urandom | LC_CTYPE=C tr -cd 'a-zA-Z0-9' | 
 
 sh init.sh
 python3 env-to-config.py
-ansible-playbook eks-addon -D
-ansible-playbook gitlab -D
-ansible-playbook gitlab-runner -D
+~/.local/bin/ansible-playbook deploy-eks-addon -D
+~/.local/bin/ansible-playbook deploy-gitlab -D
+
