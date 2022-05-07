@@ -8,8 +8,13 @@ domainFilters:
   - {{ ExtraVars.domain }}
 policy: upsert-only
 provider: {{ ExtraVars.provider }}
-alibabacloud:
-  accessKeyId: "{{ ExtraVars.accesskey }}"
-  accessKeySecret: "{{ ExtraVars.secretkey }}"
-  regionId: "{{ ExtraVars.region }}"
-  zoneType: public
+aws:
+  credentials:
+    secretKey: "{{ ExtraVars.accesskey }}"
+    accessKey: "{{ ExtraVars.secretkey }}"
+  region: "{{ ExtraVars.region }}"
+#alibabacloud:
+#  accessKeyId: "{{ ExtraVars.accesskey }}"
+#  accessKeySecret: "{{ ExtraVars.secretkey }}"
+#  regionId: "{{ ExtraVars.region }}"
+#  zoneType: public
