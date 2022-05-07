@@ -1,4 +1,4 @@
-- name: "cluster {{ ClusterContext }} Create {{ Namespace }}"
+- name: "cluster {{ ClusterContext }} Create Namespace/{{ Namespace }}"
   kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
@@ -11,14 +11,14 @@
   ignore_errors: yes
   when: ExtraVars.secrets is defined
 
-- name: "cluster {{ ClusterContext }} Create Generic Secret/{{ item.name }}"
+- name: "cluster {{ ClusterContext }} Create Generic-Secret/{{ item.name }}"
   shell: ' kubectl create secret generic {{ item.name }}              \
            --from-literal={{ item.key }}="{{ item.vaule }}"           \
            -n {{ Namespace }} '
   loop: "{{ ExtraVars.secrets }}"
   when: ExtraVars.secrets is defined
 
-- name: "cluster {{ ClusterContext }} Deploy {{ Name }}"
+- name: "cluster {{ ClusterContext }} Deploy Chart/{{ Name }}"
   kubernetes.core.helm:
     name: "{{ Name }}"
     chart_ref: "{{ Chart }}"
