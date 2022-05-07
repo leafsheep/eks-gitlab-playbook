@@ -4,7 +4,7 @@ function init_terraform()
 {
 cat > ~/.terraformrc << EOF
 plugin_cache_dir   = "$HOME/.terraform.d/plugin-cache"
-<< EOF
+EOF
 }
 
 function init_tmux_conf()
