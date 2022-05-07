@@ -9,12 +9,14 @@
 - name: "cluster {{ ClusterContext }} : Clean OLD Secret"
   shell: "kubectl delete secret --all -n  {{ Namespace }}"
   ignore_errors: yes
+  when: ExtraVars.secrets is defined
 
 - name: "cluster {{ ClusterContext }} : Create {{ item.secret }} Generic Secret"
   shell: ' kubectl create secret generic {{ vaule.key }}      \
            --from-literal=gitlab="{{ item.vaule }}"           \
            -n {{ Namespace }} '
-  loop: "{{ secrets }}"
+  loop: "{{ ExtraVars.secrets }}"
+  when: ExtraVars.secrets is defined
 
 - name: "cluster {{ ClusterContext }} :Deploy {{ Name }}"
   kubernetes.core.helm:
