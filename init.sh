@@ -18,14 +18,15 @@ EOF
 
 function init_linux()
 {
-    sudo amazon-linux-extras enable ansible2
+    sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    sudo yum makecache
     sudo yum install ansible python3-pip git tmux -y
     sudo pip3 install jinja2 hvac kubernetes
     sudo ansible-galaxy collection install kubernetes.core 
     sudo curl -o /usr/bin/kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl 
     sudo curl -o /tmp/helm.tar.gz https://mirrors.huaweicloud.com/helm/v3.5.2/helm-v3.5.2-linux-amd64.tar.gz
     sudo tar -xpvf /tmp/helm.tar.gz -C /tmp/ && sudo cp /tmp/linux-amd64/helm /usr/bin/ -f
-    sudo chmd 755 /usr/bin/kubectl /usr/bin/helm
+    sudo chmod 755 /usr/bin/kubectl /usr/bin/helm
     init_tmux_conf
 }
 

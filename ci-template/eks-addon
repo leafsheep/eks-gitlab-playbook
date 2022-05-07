@@ -5,7 +5,6 @@
     - include_role:
         name: k8s-helm-repository 
       vars:
-        master_group: local
         RepoName: stable
         RepoURL: https://artifact.onwalk.net/chartrepo/k8s 
     - include_role:

@@ -1,12 +1,10 @@
-- name: local-desktop
-  hosts: all
+- name: localhost
   connection: local
   gather_facts: no
   tasks:
     - include_role:
         name: k8s-helm-repository
       vars:
-        master_group: master
         RepoName: stable
         RepoURL: https://artifact.onwalk.net/chartrepo/k8s
     - include_role:

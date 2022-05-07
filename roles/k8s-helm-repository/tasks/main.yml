@@ -2,8 +2,6 @@
   kubernetes.core.helm_repository:
     name: "{{ RepoName }}"
     repo_url: "{{ RepoURL }}"
-  when: inventory_hostname in groups[master_group][0]
 
 - name: Update repo
   shell: "helm repo update"
-  when: inventory_hostname in groups[master_group][0]
