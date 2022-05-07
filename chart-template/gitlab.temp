@@ -8,11 +8,14 @@ global:
     configureCertmanager: false
     class: "{{ ExtraVars.ingressclass }}"
     tls:
-      enabled: true
+      enabled: false
       secretName: gitlab-tls
   initialRootPassword:
     secret: gitlab-components-secret 
     key: gitlab
+  runner:
+    registrationToken:
+      secret: gitlab-registration-secret
 gitlab:
   gitaly:
     persistence:

@@ -19,9 +19,10 @@ EOF
 function init_linux()
 {
     sudo amazon-linux-extras enable ansible2
-    sudo yum  install ansible python3-pip git tmux -y
+    sudo yum install ansible python3-pip git tmux -y
     sudo pip3 install jinja2 hvac kubernetes
     sudo ansible-galaxy collection install kubernetes.core 
+    init_tmux_conf
 }
 
 case `uname` in

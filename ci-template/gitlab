@@ -22,4 +22,10 @@
           storageclass: 'gp2'
           ingressclass: nginx
           domain: {{ vars.gitlab.domain }} 
-          password: "{{ vars.gitlab.pw }}" 
+          secrets:
+            - name: gitlab-components-secret
+              key: 'gitlab'
+              vaule: "{{ vars.gitlab.pw }}"
+            - name: gitlab-registration-secret
+              key: 'runner-registration-token'
+              vaule: "{{ vars.gitlab.token }}"
