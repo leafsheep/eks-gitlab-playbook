@@ -1,0 +1,24 @@
+helm delete velero -n velero
+kubectl delete backups.velero.io  --all -n velero
+kubectl delete backupstoragelocations.velero.io --all -n velero
+kubectl delete deletebackuprequests.velero.io --all -n velero
+kubectl delete downloadrequests.velero.io --all -n velero
+kubectl delete podvolumebackups.velero.io --all -n velero
+kubectl delete podvolumerestores.velero.io --all -n velero
+kubectl delete resticrepositories.velero.io --all -n velero
+kubectl delete restores.velero.io --all -n velero
+kubectl delete schedules.velero.io --all -n velero
+kubectl delete serverstatusrequests.velero.io --all -n velero
+kubectl delete volumesnapshotlocations.velero.io --all -n velero
+
+kubectl delete crd backups.velero.io
+kubectl delete crd backupstoragelocations.velero.io
+kubectl delete crd deletebackuprequests.velero.io
+kubectl delete crd downloadrequests.velero.io
+kubectl delete crd podvolumebackups.velero.io
+kubectl delete crd podvolumerestores.velero.io 
+kubectl delete crd resticrepositories.velero.io
+kubectl delete crd restores.velero.io
+kubectl delete crd schedules.velero.io
+kubectl delete crd serverstatusrequests.velero.io
+kubectl delete crd volumesnapshotlocations.velero.io
