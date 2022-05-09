@@ -2,14 +2,14 @@ enabled: true
 rbac:
   create: true
   clusterWideAccess: true
-gitlabUrl: "{{ url }}" 
-runnerRegistrationToken: "{{ token }}" 
+gitlabUrl: "{{ ExtraVars.url }}" 
+runnerRegistrationToken: "{{ ExtraVars.token }}" 
 runners:
   executor: "kubernetes"
 service:
   enabled: true
 metrics:
   serviceMonitor:
-    enabled: true
+    enabled: false
     labels:
       release: prometheus
