@@ -50,7 +50,7 @@ if __name__ == '__main__':
         },
     'gitlab': { 
          'pw': gitlab_pw,
-         'url': gitlab_url
+         'url': gitlab_url,
          'token': gitlab_token,
          'domain': gitlab_domain
         }
