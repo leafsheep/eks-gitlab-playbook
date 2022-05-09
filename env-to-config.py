@@ -32,6 +32,7 @@ if __name__ == '__main__':
     eks_name             = os.environ['eks_name'] 
     s3_bucket            = os.environ['s3_name']
     gitlab_pw            = os.environ['gitlab_pw']
+    gitlab_url           = os.environ['gitlab_url']
     gitlab_domain        = os.environ['gitlab_domain']
     gitlab_token         = os.environ['gitlab_token']
 
@@ -49,6 +50,7 @@ if __name__ == '__main__':
         },
     'gitlab': { 
          'pw': gitlab_pw,
+         'url': gitlab_url
          'token': gitlab_token,
          'domain': gitlab_domain
         }

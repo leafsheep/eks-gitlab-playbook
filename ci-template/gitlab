@@ -38,5 +38,5 @@
         Version: 0.38.0
         TemplateFile: chart-template/gitlab-runner.temp
         ExtraVars:
-          url: "http://{{ vars.gitlab.domain }}" 
+          url: "http://{{ vars.gitlab.url }}" 
           token: "{{ vars.gitlab.token }}"
