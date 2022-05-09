@@ -28,7 +28,7 @@
     values: "{{ lookup('template', TemplateFile) | from_yaml }}"
 
 - name: Waiting for {{ Name }} RES Ready
-  shell: "kubectl get pods -n {{ Namespace }} | grep -v Running | awk 'NR>1'"
+  shell: "kubectl get pods -n {{ Namespace }} | grep -Ev 'Running|Completed' | awk 'NR>1'"
   register: cluster_stats
   until:
     - 'cluster_stats.stdout == ""'
